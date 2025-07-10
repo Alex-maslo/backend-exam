@@ -2,7 +2,9 @@ import * as crypto from 'crypto';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-(global as any).crypto = crypto;
+if (!(global as any).crypto) {
+  (global as any).crypto = crypto;
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
