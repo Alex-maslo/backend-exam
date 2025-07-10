@@ -5,7 +5,7 @@ services:
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_DB: clinic
+      POSTGRES_DB: clinicdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
