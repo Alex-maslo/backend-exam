@@ -6,6 +6,10 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { neonDatabaseConfig } from './database/neon.database';
+import { ClinicsModule } from './clinics/clinics.module';
+import { DoctorsModule } from './doctors/doctors.module';
+
+import { TreatmentsModule } from './treatments/treatments.module';
 
 @Module({
   imports: [
@@ -16,6 +20,9 @@ import { neonDatabaseConfig } from './database/neon.database';
     TypeOrmModule.forRootAsync(neonDatabaseConfig),
     UsersModule,
     AuthModule,
+    ClinicsModule,
+    DoctorsModule,
+    TreatmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
