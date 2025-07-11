@@ -18,10 +18,10 @@ export class ClinicsController {
   }
 
   @Get()
-  findAll(
+  async findAll(
     @Query('search') search?: string,
-    @Query('sort') sort: 'asc' | 'desc' = 'asc',
-  ) {
+    @Query('sort') sort?: 'asc' | 'desc',
+  ): Promise<Clinic[]> {
     return this.clinicsService.findAll(search, sort);
   }
 

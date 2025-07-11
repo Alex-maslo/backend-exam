@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Treatment } from '../../treatments/entities/treatment.entity';
+import { Clinic } from '../../clinics/entities/clinic.entity';
 
 @Entity('doctors')
 export class Doctor {
@@ -19,4 +27,13 @@ export class Doctor {
 
   @Column({ nullable: true, type: 'text' })
   specialization?: string;
+
+  @ManyToMany(() => Treatment, (treatment) => treatment.doctors, {
+    cascade: true,
+  })
+  @JoinTable()
+  treatments: Treatment[];
+
+  @ManyToMany(() => Clinic, (clinic) => clinic.doctors)
+  clinics: Clinic[];
 }

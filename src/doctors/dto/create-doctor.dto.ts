@@ -1,4 +1,13 @@
-import { IsEmail, IsOptional, IsString, Matches } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  ArrayUnique,
+  IsArray,
+  IsEmail,
+  IsInt,
+  IsOptional,
+  IsString,
+  Matches,
+} from 'class-validator';
 
 export class CreateDoctorDto {
   @IsString()
@@ -20,4 +29,10 @@ export class CreateDoctorDto {
   @IsOptional()
   @IsString()
   specialization?: string;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @ArrayUnique()
+  @IsInt({ each: true })
+  treatmentIds: number[];
 }

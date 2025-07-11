@@ -2,18 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { Doctor } from './entities/doctor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
+import { Treatment } from '../treatments/entities/treatment.entity';
 
 @Injectable()
 export class DoctorsService {
   constructor(
     @InjectRepository(Doctor)
     private doctorRepository: Repository<Doctor>,
+    @InjectRepository(Treatment)
+    private readonly treatmentRepository: Repository<Treatment>,
   ) {}
 
   async create(createDoctorDto: CreateDoctorDto): Promise<Doctor> {
-    const doctor = this.doctorRepository.create(createDoctorDto);
-    return await this.doctorRepository.save(doctor);
+    const { treatmentIds = [], ...doctorData } = createDoctorDto;
+    const treatments = await this.treatmentRepository.findBy({
+      id: In(treatmentIds),
+    });
+
+    const doctor = this.doctorRepository.create({
+      ...doctorData,
+      treatments,
+    });
+
+    return this.doctorRepository.save(doctor);
   }
 
   async createMany(createDoctorDto: CreateDoctorDto[]): Promise<Doctor[]> {

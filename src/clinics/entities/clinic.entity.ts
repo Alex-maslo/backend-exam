@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Doctor } from '../../doctors/entities/doctor.entity';
 
 @Entity('clinics')
 export class Clinic {
@@ -19,4 +26,8 @@ export class Clinic {
 
   @Column({ nullable: true, type: 'text' })
   description?: string;
+
+  @ManyToMany(() => Doctor, (doctor) => doctor.clinics, { cascade: true })
+  @JoinTable() // керуємо проміжною таблицею з цього боку
+  doctors: Doctor[];
 }

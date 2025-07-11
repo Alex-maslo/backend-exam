@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Doctor } from '../../doctors/entities/doctor.entity';
 
 @Entity('treatments')
 export class Treatment {
@@ -13,4 +14,7 @@ export class Treatment {
 
   @Column('decimal', { nullable: true })
   price?: number;
+
+  @ManyToMany(() => Doctor, (doctor) => doctor.treatments)
+  doctors: Doctor[];
 }
